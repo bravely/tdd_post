@@ -1,17 +1,22 @@
 require 'rails_helper'
 
 describe MyModel, type: :model do
-  # Already, we've set the MyModel class as the subject. This is what the describe
+  # Already, we've set a MyModel instance as the subject. This is what the describe
   # block does- it sets the subject. Any sub-describe blocks will either set a new
   # object(it must be a Class object of some kind), or bubble up to the describe
   # block above that. For example,
   describe 'this describe block won\'t hijack the subject' do
-    it { expect(true).to be_truthy }
+    it { expect(subject).to_not eq 'this describe block won\'t hijack the subject' }
   end
 
   describe MyModel2 do
     # This will.
-    it { expect(true).to be_truthy }
+    it { expect(subject).to eq MyModel2.new }
+  end
+
+  describe 'obviously there is another way to set the subject' do
+    subject { 'like this' }
+    it { expect(subject).to eq 'like this' }
   end
 
   # Back to testing MyModel. Here are some basic tests available to us:
@@ -49,10 +54,31 @@ describe MyModel, type: :model do
     # number can be changed later with minimal code changes. Otherwise, the test
     # is as simple as it looks- you're simply creating the required pieces, then
     # calling the method as easily as possible.
+
+    # It's worth talking about let/let! for a moment. These lazily load needed
+    # attributes in RSpec- in other words, it only runs the block and loads the
+    # variable into memory if it is called. Also, it only reruns the block if
+    # a related let up the tree is changed. Almost all variables should be put
+    # in a let block.
+
+    # Effectively, they're the equivalent of...
+
+    let(:total)
+    def total
+      @total ||= 5
+    end
+
+    # As for the difference between the two- let is fully lazy, where let! will
+    # be guaranteed to run. It's the equivalent of...
+    let!(:bazzes) { FactoryGirl.create_list(:baz, total) }
+    def bazzes
+      @bazzes ||= FactoryGirl.create_list(:baz, total)
+    end
+    bazzes
   end
 
   describe '#boom_half_bars!' do
-    # See? This one is called on an instance of the MyModel object.
+    # See? This one is implied as called on an instance of the MyModel object.
     let(:associated_total) { 4 }
     let(:my_model) { FactoryGirl.create(:my_model) }
     let(:bars) { FactoryGirl.create_list(:bar, associated_total, my_model: my_model) }
