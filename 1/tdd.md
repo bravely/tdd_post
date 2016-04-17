@@ -49,3 +49,28 @@ Well, most of my experience right now is in Ruby, dealing with the Rails framewo
 # model_specs.rb gist goes here
 
 One thing to also learn from the above example: Anytime it isn't plainly clear what the test sets out to prove, we specifically say so in the `it` block. This is one of your primary places of documentation in tests. Documentation in specs is important to help remember original intent of code, which if well-written can save a lot of headache when coming back months later.
+
+This doesn't mean every instance of an `it` block requires explanation. Some are fairly obvious, even if they're not super pretty in `--format documentation` mode. But only nerds use that anyway.
+
+The other big kind of test we have right now, is a controller test.
+
+# controller_specs.rb gist goes here
+
+However, these are on the way out in Rails 5, in favor of more widely using integration tests. Ruby-land integartion tests come in two flavors: Feature Specs, or Request Specs. What's the difference? Well, as [this](http://stackoverflow.com/a/15193953/596623) StackOverflow answer shows, not a ton other than the API you use to get through it.
+
+##### Frankly, I don't like Capybara feature specs much.
+
+I want to put that up front, because I'm not right. I'm not wrong either, this is just a matter of opinion. But since this is my article, here's why I'm right:
+
+* **You don't have to learn a new API.** They use almost the same exact jargon as Controller specs, they just bring the whole app to bear.
+* **Capybara-style specs are focused on readability, not testing.** The more you go down that path, the more you're writing code to make your tests easier for business to read. Personally, I think that's a waste of time- Business should have confidence in both their developers and their relationship with said developers, to either get it right the first time or be able to talk enough to get it fixed.
+* **Capybara specs can seriously slow you down.** This'll be doubly true in Rails 5, but frankly Capybara brings a lot of extras to the table that I don't think are relevant to making sure your code does what it says.
+
+But why might I be wrong?
+
+* **Capybara makes it easier to integrate wider integration test frameworks.** You want to actually render out your Javascript, have it run and do shit? There are PhantomJS/Selenium tools to do that.
+* **It can be used to guarantee a wider range of interaction.** I think for small teams this is pointless, but admittedly, if I was running a huge company like Amazon or Twitter, this would actually be the *majority* of my tests.
+
+It's up to you what to do there. But personally, I recommend request specs.
+
+# request_specs.rb gist goes here
