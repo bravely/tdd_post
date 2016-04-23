@@ -74,3 +74,18 @@ But why might I be wrong?
 It's up to you what to do there. But personally, I recommend request specs.
 
 # request_specs.rb gist goes here
+
+# Other kinds of specs
+
+There are a host of other specs, of course- but honestly, I don't encourage using any of them. There just aren't enough cases where you're following logical app design that it doesn't end up being a waste.
+
+View specs for example, can be done inside of your Request Specs. Routing should almost always be done in a conventional way. Helpers are straightforward enough that in the few cases you write specs for them(use [decorators](https://github.com/johnotander/deckorator) instead), it'll be simple.
+
+## Other Resources/Tools
+
+* **[Better Specs](http://betterspecs.org/)** - Good guidelines to writing better tests in general, though a lot of it has been covered here.
+* **[Shoulda Matchers](https://github.com/thoughtbot/shoulda)** - Frankly, these should be in core RSpec. They're just too good.
+* **[Webrat](https://github.com/brynary/webrat)** - Those awesome CSS-select matchers.
+* **[VCR](https://github.com/vcr/vcr)** makes mocking HTTP requests so simple that they become forgettable. One of the few perfect gems.
+* **[Guard](https://github.com/guard/guard), [Guard-RSpec](https://github.com/guard/guard-rspec), [Guard-Rubocop](https://github.com/yujinakayama/guard-rubocop)** - `bundle exec guard` is the beginning of my development process every single day. Install all 3 of these fully, run it, watch as you save yourself a solid half hour to an hour in time every day, and spot problems earlier every single time. These are automatic test-runners and linters, that run against whatever file you just saved, and with a press of enter run your whole suite.
+* **[Should Not](https://github.com/should-not/should_not)** - Quit that.
